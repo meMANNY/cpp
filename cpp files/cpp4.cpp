@@ -148,5 +148,8 @@ int main()
     postOrder(root);
     cout << endl;
 
+    cout << "Postorder Traversal of tree is:" << endl;
+    postOrder(root);
+    cout << endl;
     return 0;
 }
