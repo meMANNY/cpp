@@ -22,5 +22,23 @@ int main()
     // 3
     m["ghi"] = 4;
 
+    // searching
+    cout << m["abc"] << endl;
+
+    // size
+    cout << m.size() << endl;
+
+    // to check presence
+    cout << m.count("abc") << endl;
+
+    // erase
+    cout << m.erase("abc") << endl;
+
+    unordered_map<string, int>::iterator it = m.begin();
+    while (it != m.end())
+    {
+        cout << it->first << " " << it->second << endl;
+        it++;
+    }
     return 0;
 }
