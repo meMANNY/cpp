@@ -2,21 +2,22 @@
 using namespace std;
 int main()
 {
-    int t;
-    cin >> t;
-    while (t--)
+
+    int a;
+    cin >> a;
+    int mini = INT_MAX;
+    for (int i = 0; i < a; i++)
     {
-        int a, b;
-        cin >> a;
-        --a;
-        int sum = 0;
-        while (a--)
-        {
-            cin >> b;
-            sum += b;
-        }
-        sum = -1 * sum;
-        cout << sum << "\n";
+        int b;
+        cin >> b;
+        int diff = 0;
+        if (b < 0)
+            diff = (b * -1);
+        else
+            diff = b;
+        mini = min(mini, diff);
     }
+    cout << mini;
+
     return 0;
 }
