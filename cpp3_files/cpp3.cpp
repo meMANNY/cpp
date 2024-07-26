@@ -1,28 +1,39 @@
-
 #include <bits/stdc++.h>
 using namespace std;
-long long t;
-#define ll long long
+
+int myceil(long long a, int b)
+{
+    if (a % b == 0)
+        return (a / b);
+    bool positive = !((a < 0) ^ (b < 0));
+    return a / b + positive;
+}
+
 int main()
 {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    cout.tie(0);
-    cin >> t;
-    while (t--)
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    cout.tie(nullptr);
+
+    int T;
+    cin >> T;
+    while (T-- > 0)
     {
-
-        ll n;
-        cin >> n;
-
-        if ((n % 2 == 1) || n < 4)
+        int n, x;
+        cin >> n >> x;
+        long long sum = 0;
+        long long maxi = 0;
+        for (int i = 0; i < n; i++)
         {
-            cout << -1 << "\n";
+            long long y;
+            cin >> y;
+            sum += y;
+            maxi += myceil(y, x);
         }
-        else
-        {
-            cout << (n + 5) / 6 << ' ' << (n / 4) << '\n';
-        }
+
+        long long min = (sum + x - 1) / x; // Manually round up the division
+
+        cout << min << " " << maxi << "\n";
     }
     return 0;
 }
