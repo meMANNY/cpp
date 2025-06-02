@@ -1,49 +1,111 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
 #include <algorithm>
-#define MOD 1000000007
 using namespace std;
+
+class TrieNode
+{
+public:
+    unordered_map<char, TrieNode *> children;
+    int count;
+    int depth;
+
+    TrieNode(int d) : count(0), depth(d) {}
+};
+
+class Trie
+{
+public:
+    TrieNode *root;
+    unordered_map<TrieNode *, int> nodeToDepth;
+
+    Trie()
+    {
+        root = new TrieNode(0);
+    }
+    void insert(const string &word)
+    {
+        TrieNode *node = root;
+        for (char c : word)
+        {
+            if (!node->children.count(c))
+            {
+                node->children[c] = new TrieNode(node->depth + 1);
+            }
+            node = node->children[c];
+            node->count++;
+        }
+    }
+    void remove(const string &word)
+    {
+        TrieNode *node = root;
+        for (char c : word)
+        {
+            if (node->children.count(c))
+            {
+                node = node->children[c];
+                node->count--;
+            }
+        }
+    }
+
+    int find_lcp(int k)
+    {
+        return find_util(root, k);
+    }
+
+    int find_util(TrieNode *node, int k)
+    {
+        int maxDepth = 0;
+        for (auto it = node->children.begin(); it != node->children.end(); ++it)
+        {
+            char c = it->first;
+            TrieNode *child = it->second;
+            if (child->count >= k)
+            {
+                maxDepth = max(maxDepth, find_util(child, k));
+            }
+        }
+        return max(maxDepth, node->depth);
+    }
+};
+vector<int> longestCommonPrefix(vector<string> &words, int k)
+{
+    int n = words.size();
+    vector<int> result(n, 0);
+
+    if (k > n - 1)
+        return result;
+
+    Trie trie;
+    for (const string &word : words)
+    {
+        trie.insert(word);
+    }
+    for (int i = 0; i < n; i++)
+    {
+        trie.remove(words[i]);
+        result[i] = trie.find_lcp(k);
+        trie.insert(words[i]);
+    }
+    return result;
+}
 
 int main()
 {
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
-    int T;
-    cin >> T;
+    vector<string> words = {"dog", "racer", "car"};
+    int k = 2;
 
-    while (T-- > 0)
+    vector<int> ans = longestCommonPrefix(words, k);
+
+    cout << "Output: ";
+    for (int num : ans)
     {
-        string binaryString;
-        cin >> binaryString;
-
-        int n = binaryString.size();
-        vector<int> prefixSum(n + 1);
-        vector<int> count(2 * n + 2);
-
-        // Calculate prefix sum
-        for (int i = 0; i < n; i++)
-        {
-            prefixSum[i + 1] = prefixSum[i] + (binaryString[i] == '1' ? 1 : -1);
-        }
-
-        // Initialize count array
-        for (int i = 0; i < 2 * n + 2; i++)
-        {
-            count[i] = 0;
-        }
-
-        long long answer = 0;
-        for (int j = 1; j <= n; j++)
-        {
-            // Update count array
-            count[prefixSum[j - 1] + n] += j;
-
-            // Calculate answer
-            answer = (answer + (long long)count[prefixSum[j] + n] * (n - j + 1)) % MOD;
-        }
-
-        cout << answer << endl;
+        cout << num << " ";
     }
+    cout << endl;
 
     return 0;
 }

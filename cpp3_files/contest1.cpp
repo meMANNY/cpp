@@ -1,48 +1,29 @@
-#include <iostream>
-#include <vector>
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+// #pragma GCC optimize("Ofast")
+// #pragma GCC optimize("unroll-loops")
+
 using namespace std;
+using namespace __gnu_pbds;
 
-int main()
-{
-    ios_base::sync_with_stdio(false);
-    cin.tie(nullptr);
-    cout.tie(nullptr);
+#define ll long long
+#define f(i, n) for (ll i = 0; i < n; i++)
+#define ia(a, n) \
+    ll a[n];     \
+    f(i, n) cin >> a[i]
+#define iv(v, n)     \
+    vector<ll> v(n); \
+    f(i, n) cin >> v[i]
+#define MOD (1000000007)
+#define INF 1000000000000000000LL // Infinity for ll
+#define mp make_pair
+#define nline '\n'
+#define yes cout << "YES\n"
+#define no cout << "NO\n"
 
-    int T;
-    cin >> T;
+template <typename T>
+using os = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
-    while (T-- > 0)
-    {
-        int n, x;
-        cin >> n >> x;
-
-        int size = n / x;
-
-        vector<vector<int>> ans(size, vector<int>(size, 0));
-        for (int i = 0; i < n; i++)
-        {
-            string row;
-            cin >> row;
-            for (int j = 0; j < n; j++)
-            {
-                int value = row[j] - '0';
-
-                if (i % x == 0 && j % x == 0)
-                {
-                    ans[i / x][j / x] = value;
-                }
-            }
-        }
-
-        for (int i = 0; i < size; i++)
-        {
-            for (int j = 0; j < size; j++)
-            {
-                cout << ans[i][j];
-            }
-            cout << endl;
-        }
-    }
-
-    return 0;
-}
+template <typename T>
+using oms = tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
