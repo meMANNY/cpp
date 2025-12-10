@@ -1,16 +1,17 @@
-from collections import Counter
+import json
 
-logfile = "E:\\project 1\\test coding\\js_modules\\access.log"
+# Load JSON file
+with open("ad_data.json", "r") as f:
+    campaigns = json.load(f)
 
-outputfile = "E:\\project 1\\test coding\\js_modules\\output.txt"
+# Compute CPC per campaign (avoid divide-by-zero errors)
+for campaign in campaigns:
+    clicks = campaign["clicks"]
+    campaign["CPC"] = campaign["budget"] / clicks if clicks > 0 else float("inf")
 
-with open(logfile, 'r') as f:
-    ips = [line.split()[0] for line in f]
+# Sort by CPC and take top 3
+top_3 = sorted(campaigns, key=lambda c: c["CPC"])[:3]
 
-most_common_ip = Counter(ips).most_common(1)[0][0]
-
-with open(outputfile, 'w') as f:
-    f.write(most_common_ip)
-
-
-
+# Output results
+for c in top_3:
+    print(f"{c['campaign_id']}: {c['CPC']:.2f}")
