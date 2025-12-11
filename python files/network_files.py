@@ -1,7 +1,7 @@
 import json
 
 # Load JSON file
-with open("ad_data.json", "r") as f:
+with open("E:\\project 1\\test coding\\js_modules\\data.json", "r") as f:
     campaigns = json.load(f)
 
 # Compute CPC per campaign (avoid divide-by-zero errors)
