@@ -8,4 +8,4 @@ year = int(input())
 print(is_leap(year))
 
 #new test2
-#fucked up bhai
+#new year commit
