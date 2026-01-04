@@ -7,5 +7,5 @@ def is_leap(year):
 year = int(input())
 print(is_leap(year))
 
-#new test2
-#new year commit2
+#new test3
+#new year commit7
