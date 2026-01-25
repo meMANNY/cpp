@@ -1,24 +1,23 @@
 #include <bits/stdc++.h>
 using namespace std;
-
-int solve(long long m, vector<pair<int, int>> &b, int current_idx)
+vector<int> print_divisors(int n)
 {
-    int n = b.size();
-    int count = current_idx;
-
-    for (int i = current_idx + 1; i < n; i++)
+    vector<int> divisors;
+    for (int i = 1; i <= sqrt(n); i++)
     {
-        if (m >= b[i].first)
+        if (n % i == 0)
         {
-            m += b[i].first;
-            count++;
-        }
-        else
-        {
-            break;
+            if (n / i == i)
+                divisors.push_back(i);
+            else
+            {
+                divisors.push_back(i);
+                divisors.push_back(n / i);
+            }
         }
     }
-    return count;
+    sort(divisors.begin(), divisors.end());
+    return divisors;
 }
 
 int main()
@@ -33,33 +32,45 @@ int main()
         int n;
         cin >> n;
 
-        vector<pair<int, int>> a(n);
+        vector<long long> a(n);
         for (int i = 0; i < n; i++)
         {
-            cin >> a[i].first;
-            a[i].second = i;
+            cin >> a[i];
         }
 
-        sort(a.begin(), a.end());
+        vector<int> k = print_divisors(n);
 
-        vector<long long> freq(n);
-        freq[0] = a[0].first;
-        for (int i = 1; i < n; i++)
+        long long maxi = 0;
+        for (int idx : k)
         {
-            freq[i] = freq[i - 1] + a[i].first;
-        }
 
-        vector<int> final_ans(n);
-        for (int i = 0; i < n; i++)
-        {
-            int result = solve(freq[i], a, i);
-            final_ans[a[i].second] = result;
-        }
+            if (idx == n)
+                continue;
 
-        for (int i = 0; i < n; i++)
-        {
-            cout << final_ans[i] << (i == n - 1 ? "" : " ");
+            long long maxi_sum = -1;
+            long long mini_sum = -1;
+
+            for (int i = 0; i < n; i += idx)
+            {
+                long long curr_sum = 0;
+
+                for (int j = i; j < i + idx; j++)
+                {
+                    curr_sum += a[j];
+                }
+                if (maxi_sum == -1 || curr_sum > maxi_sum)
+                {
+                    maxi_sum = curr_sum;
+                }
+                if (mini_sum == -1 || curr_sum < mini_sum)
+                {
+                    mini_sum = curr_sum;
+                }
+            }
+
+            maxi = max(maxi, maxi_sum - mini_sum);
         }
+        cout << maxi;
         cout << "\n";
     }
     return 0;
