@@ -18,6 +18,5 @@ int main()
         mini = min(mini, diff);
     }
     cout << mini;
-#test
     return 0;
 }
