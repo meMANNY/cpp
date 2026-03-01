@@ -16,25 +16,23 @@ int main()
             cin >> p[i];
         }
 
-        for (int i = 1; i < n - 1; i++)
+        int ans = p[0], sum = p[0];
+        int mini_so_far = min(0, p[0]);
+
+        for (int i = 1; i < n; i++)
         {
-            if (p[i - 1] < p[i] && p[i] > p[i + 1])
+
+            if (abs(p[i] % 2) == abs(p[i - 1] % 2))
             {
-                swap(p[i], p[i + 1]);
+                mini_so_far = 0;
+                sum = 0;
             }
-        }
-        int flag = 0;
-        for (int i = 0; i < n - 1; i++)
-        {
-            if (p[i] > p[i + 1])
-            {
-                flag++;
-            }
+
+            sum += p[i];
+            ans = max(ans, sum - mini_so_far);
+            mini_so_far = min(mini_so_far, sum);
         }
 
-        if (flag == 0)
-            cout << "YES" << "\n";
-        else
-            cout << "NO" << "\n";
+        cout << ans << "\n";
     }
 }
