@@ -3,37 +3,57 @@ using namespace std;
 
 int main()
 {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
     int t;
     cin >> t;
     while (t--)
     {
-        int n;
-        cin >> n;
+        int n, q;
+        cin >> n >> q;
 
-        vector<int> p(n, 0);
+        vector<long long> a(n);
+
         for (int i = 0; i < n; i++)
         {
-            cin >> p[i];
+            cin >> a[i];
         }
+        vector<int> x(q);
 
-        int ans = p[0], sum = p[0];
-        int mini_so_far = min(0, p[0]);
+        for (int i = 0; i < q; i++)
+        {
+            cin >> x[i];
+        }
+        int min_q = 31;
 
-        for (int i = 1; i < n; i++)
+        for (int i = 0; i < q; i++)
         {
 
-            if (abs(p[i] % 2) == abs(p[i - 1] % 2))
+            if (x[i] < min_q)
             {
-                mini_so_far = 0;
-                sum = 0;
+                min_q = x[i];
+            }
+            else
+            {
+                continue;
             }
 
-            sum += p[i];
-            ans = max(ans, sum - mini_so_far);
-            mini_so_far = min(mini_so_far, sum);
-        }
+            long long divisor = 1LL << min_q;
+            long long add = 1LL << (min_q - 1);
 
-        cout << ans << "\n";
+            for (int j = 0; j < n; j++)
+            {
+                if (a[j] % divisor == 0)
+                {
+                    a[j] += add;
+                }
+            }
+        }
+        for (int i = 0; i < n; i++)
+        {
+            cout << a[i] << " ";
+        }
+        cout << "\n";
     }
-    // test1
+    return 0;
 }
