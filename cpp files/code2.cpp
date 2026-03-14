@@ -12,47 +12,42 @@ int main()
         int n, q;
         cin >> n >> q;
 
-        vector<long long> a(n);
+        vector<int> a(n);
 
         for (int i = 0; i < n; i++)
         {
             cin >> a[i];
         }
-        vector<int> x(q);
 
-        for (int i = 0; i < q; i++)
+        int left = 0;
+        int right = q;
+
+        while (left <= right)
         {
-            cin >> x[i];
-        }
-        int min_q = 31;
+            int mid = left + (right - left) / 2;
 
-        for (int i = 0; i < q; i++)
-        {
+            int cnt = 0;
 
-            if (x[i] < min_q)
+            for (int i = 0; i < n; i++)
             {
-                min_q = x[i];
+
+                if (a[i] < mid)
+                {
+                    cnt += (mid - a[i]);
+                }
+            }
+
+            if (cnt < q)
+            {
+                left = mid + 1;
             }
             else
             {
-                continue;
-            }
-
-            long long divisor = 1LL << min_q;
-            long long add = 1LL << (min_q - 1);
-
-            for (int j = 0; j < n; j++)
-            {
-                if (a[j] % divisor == 0)
-                {
-                    a[j] += add;
-                }
+                right = mid - 1;
             }
         }
-        for (int i = 0; i < n; i++)
-        {
-            cout << a[i] << " ";
-        }
+
+        cout << right << endl;
         cout << "\n";
     }
     return 0;
