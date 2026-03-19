@@ -1,22 +1,36 @@
 #include <bits/stdc++.h>
 using namespace std;
 int mod = 1e9 + 7;
-int solve(int n, vector<int> &dp)
+void solve()
 {
-    if (n < 0)
-        return 0;
-    if (n == 0)
-        return 1;
-    if (dp[n] != -1)
-        return dp[n];
+    int n, k;
+    cin >> n >> k;
 
-    int count = 0;
-
-    for (int i = 1; i <= 6; i++)
+    vector<long long> a(n), p(n + 1, 0);
+    for (int i = 0; i < n; i++)
     {
-        count = (count + solve(n - i, dp)) % mod;
+        cin >> a[i];
     }
-    return dp[n] = count;
+    sort(a.begin(), a.end());
+
+    for (int i = 0; i < n; i++)
+    {
+
+        p[i + 1] = p[i] + a[i];
+    }
+
+    long long ans = 0;
+
+    for (int i = 0; i <= k; i++)
+    {
+
+        int left_idx = 2 * i;
+        int right_idx = n - (k - i);
+
+        long long curr_sum = p[right_idx] - p[left_idx];
+        ans = max(ans, curr_sum);
+    }
+    cout << ans << "\n";
 }
 
 int main()
@@ -27,6 +41,9 @@ int main()
     int n;
     cin >> n;
 
-    vector<int> dp(n + 1, -1);
-    cout << solve(n, dp) << "\n";
+    while (n--)
+    {
+        solve();
+    }
+    return 0;
 }
