@@ -3,34 +3,46 @@ using namespace std;
 int mod = 1e9 + 7;
 void solve()
 {
-    int n, k;
-    cin >> n >> k;
+    int n;
+    cin >> n;
 
-    vector<long long> a(n), p(n + 1, 0);
+    vector<long long> a(n), p(n);
     for (int i = 0; i < n; i++)
     {
         cin >> a[i];
     }
-    sort(a.begin(), a.end());
 
     for (int i = 0; i < n; i++)
     {
 
-        p[i + 1] = p[i] + a[i];
+        cin >> p[i];
     }
 
-    long long ans = 0;
+    long long start = -1;
+    long long end = -1;
 
-    for (int i = 0; i <= k; i++)
+    for (int i = 0; i < n; i++)
     {
-
-        int left_idx = 2 * i;
-        int right_idx = n - (k - i);
-
-        long long curr_sum = p[right_idx] - p[left_idx];
-        ans = max(ans, curr_sum);
+        if (a[i] != p[i])
+        {
+            end = i;
+            if (start == -1)
+            {
+                start = i;
+            }
+        }
     }
-    cout << ans << "\n";
+
+    while (start > 0 && p[start - 1] <= p[start])
+    {
+        start--;
+    }
+    while (end < n - 1 && p[end] <= p[end + 1])
+    {
+        end++;
+    }
+
+    cout << start + 1 << " " << end + 1 << "\n";
 }
 
 int main()
