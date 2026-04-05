@@ -1,32 +1,81 @@
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
-#define int long long
+typedef long long ll;
+typedef long double ld;
+typedef pair<int, int> pii;
+typedef pair<pii, int> ppi;
+typedef pair<int, pii> pip;
+typedef pair<pii, pii> ppp;
+typedef pair<ll, ll> pll;
 
-int32_t main()
+#define A first
+#define B second
+#define endl '\n'
+#define sep ' '
+#define all(x) x.begin(), x.end()
+#define kill(x) return cout << x << endl, 0
+#define SZ(x) int(x.size())
+#define lc id << 1
+#define rc id << 1 | 1
+#define fast_io              \
+    ios::sync_with_stdio(0); \
+    cin.tie(0);              \
+    cout.tie(0);
+
+ll power(ll a, ll b, ll md) { return (!b ? 1 : (b & 1 ? a * power(a * a % md, b / 2, md) % md : power(a * a % md, b / 2, md) % md)); }
+
+const int xn = 2e5 + 10;
+const int xm = -20 + 10;
+const int sq = 320;
+const int inf = 1e9 + 10;
+const ll INF = 1e18 + 10;
+const ld eps = 1e-15;
+const int mod = 998244353;
+const int base = 257;
+
+int qq, n, m, a[xn], b[xn];
+bool ans;
+
+void check(int x)
 {
-    int q;
-    cin >> q;
-    while (q--)
+    m = 0;
+    for (int i = 1; i <= n; ++i)
+        if (a[i] != x)
+            b[++m] = a[i];
+    for (int i = 1; i <= m; ++i)
+        if (b[i] != b[m + 1 - i])
+            return;
+    ans = true;
+}
+
+int main()
+{
+    fast_io;
+
+    cin >> qq;
+    while (qq--)
     {
-        int n;
-        cin >> n;
-        vector<int> a;
-        for (int i = 0; i < n; ++i)
+        cin >> n, ans = true;
+        for (int i = 1; i <= n; ++i)
+            cin >> a[i];
+        for (int i = 1; i <= n; ++i)
         {
-            int x;
-            cin >> x;
-            if (i && a.back() > x)
+            if (a[i] != a[n + 1 - i])
             {
-                a.push_back(1);
+                ans = false;
+                check(a[i]);
+                check(a[n + 1 - i]);
+                break;
             }
-            a.push_back(x);
         }
-        cout << a.size() << "\n";
-        for (int el : a)
-            cout << el << " ";
-        cout << "\n";
+        if (ans)
+            cout << "YES" << endl;
+        else
+            cout << "NO" << endl;
     }
+
     return 0;
 }
