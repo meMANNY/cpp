@@ -13,3 +13,4 @@ cpu_s.forEach(element =>{
 
 console.log("Total number of logical cores : " + no_of_core);
 //haa
+//hallo
