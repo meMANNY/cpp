@@ -1,23 +1,57 @@
 #include <bits/stdc++.h>
+
 using namespace std;
+
 int main()
 {
 
-    int a;
-    cin >> a;
-    int mini = INT_MAX;
-    for (int i = 0; i < a; i++)
+    int t;
+
+    cin >> t;
+
+    while (t--)
     {
-        int b;
-        cin >> b;
-        int diff = 0;
-        if (b < 0)
-            diff = (b * -1);
-        else
-            diff = b;
-        mini = min(mini, diff);
+
+        int n;
+
+        cin >> n;
+
+        vector<long long> v(n);
+
+        for (int i = 0; i < n; i++)
+        {
+
+            cin >> v[i];
+        }
+
+        long long ans = -1;
+
+        long long x = 2;
+
+        while (x <= (1LL << 57))
+        {
+
+            set<long long> s;
+
+            for (int i = 0; i < n; i++)
+            {
+
+                s.insert(v[i] % x);
+            }
+
+            if (s.size() == 2)
+            {
+
+                ans = x;
+
+                break;
+            }
+
+            x *= 2;
+        }
+
+        cout << ans << '\n';
     }
-    cout << mini;
+
     return 0;
 }
-//test
