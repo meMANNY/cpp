@@ -1,57 +1,99 @@
+#include<iostream>
+
 #include <bits/stdc++.h>
 
 using namespace std;
 
-int main()
-{
+#define ll long long
 
-    int t;
+int main(){
 
-    cin >> t;
+  ll t;
 
-    while (t--)
-    {
+  cin>>t;
 
-        int n;
+  while(t--){
 
-        cin >> n;
+    ll n,k;
 
-        vector<long long> v(n);
+    cin>>n>>k;
 
-        for (int i = 0; i < n; i++)
-        {
+    vector<ll>v(n);
 
-            cin >> v[i];
-        }
+    vector<vector<ll>>all(k+1);
 
-        long long ans = -1;
+    for(ll i=0;i<n;i++){
 
-        long long x = 2;
+      cin>>v[i];
 
-        while (x <= (1LL << 57))
-        {
+      all[v[i]].push_back(i);
 
-            set<long long> s;
-
-            for (int i = 0; i < n; i++)
-            {
-
-                s.insert(v[i] % x);
-            }
-
-            if (s.size() == 2)
-            {
-
-                ans = x;
-
-                break;
-            }
-
-            x *= 2;
-        }
-
-        cout << ans << '\n';
     }
 
-    return 0;
+    ll ans=LLONG_MAX;
+
+    for(ll i=0;i<=k;i++){
+
+      if(!all[i].empty()){
+
+        ll first=all[i][0];
+
+        ll second=LLONG_MIN;
+
+        //cout<<i<<endl;
+
+        for(ll j=1;j<all[i].size();j++){
+
+          ll dis=all[i][j]-all[i][j-1]-1;
+
+          //cout<<dis<<endl;
+
+          if(dis>first){
+
+            second=first;
+
+            first=dis;
+
+          }
+
+          else if(dis<=first&&dis>second){
+
+            second=dis;
+
+          }
+
+        }
+
+        ll dis=n-all[i][all[i].size()-1]-1;
+
+        if(dis>first){
+
+          second=first;
+
+          first=dis;
+
+        }
+
+        else if(dis<=first&&dis>second){
+
+          second=dis;
+
+        }
+
+        //cout<<first<<" "<<second<<endl;
+
+        first=first/2;
+
+        ll temp=max(first,second);
+
+        ans=min(ans,temp);
+
+      }
+
+    }
+
+    cout<<ans<<endl;
+
+  }
+
 }
