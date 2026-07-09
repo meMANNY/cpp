@@ -49,6 +49,7 @@ vector<long long> prevSmallerElement(vector<long long> &arr, long long n)
 //
 //
 //s
+//bug check
 //
 int largestRectangleArea(vector<long long> &heights)
 {
