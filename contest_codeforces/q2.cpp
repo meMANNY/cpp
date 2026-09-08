@@ -9,41 +9,47 @@ using namespace std;
 
 void solve()
 {
-    int n, s;
-    cin >> n >> s;
-    vi A(n);
-    for (int i = 0; i < n; i++)
-        cin >> A[i];
+    int n;
 
-    int i = 0;
-    int j = 0;
-    int sum = 0;
+    cin >> n;
 
-    int len = -1;
+    vector<int> a(n);
 
-    while (j < n)
+    for (auto &x : a)
+        cin >> x;
+
+    int c = 0;
+
+    for (int i = 0; i < n - 1; i++)
+
     {
-        sum += A[j];
-        if (sum > s)
+
+        //  a[j] = (i+j+2) / a[i]
+
+        int x = a[i];
+
+        for (int div = x; div < 2 * n; div += x)
+
         {
-            sum -= A[i];
-            i++;
+
+            int j = div - i - 2;
+
+            if (j >= n)
+            {
+                break;
+            }
+
+            if (j < 0 || j <= i)
+            {
+                continue;
+            }
+
+            if (a[j] * a[i] == i + j + 2)
+                c++;
         }
-        if (sum == s)
-        {
-            len = max(len, j - i + 1);
-        }
-        j++;
     }
 
-    if (len == -1)
-    {
-        cout << len << nl;
-    }
-    else
-    {
-        cout << n - len << nl;
-    }
+    cout << c << endl;
 }
 
 int main()
